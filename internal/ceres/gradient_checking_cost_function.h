@@ -76,6 +76,7 @@ CostFunction* CreateGradientCheckingCostFunction(
     const std::vector<const LocalParameterization*>* local_parameterizations,
     double relative_step_size,
     double relative_precision,
+    double absolute_precision,
     const std::string& extra_info,
     GradientCheckingIterationCallback* callback);
 
@@ -104,6 +105,7 @@ ProblemImpl* CreateGradientCheckingProblemImpl(
     ProblemImpl* problem_impl,
     double relative_step_size,
     double relative_precision,
+    double absolute_precision,
     GradientCheckingIterationCallback* callback);
 
 }  // namespace internal

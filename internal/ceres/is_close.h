@@ -43,6 +43,7 @@ namespace internal {
 bool IsClose(double x,
              double y,
              double relative_precision,
+             double absolute_precision,
              double *relative_error,
              double *absolute_error);
 }  // namespace internal

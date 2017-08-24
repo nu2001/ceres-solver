@@ -134,6 +134,7 @@ class CERES_EXPORT Solver {
       trust_region_problem_dump_format_type = TEXTFILE;
       check_gradients = false;
       gradient_check_relative_precision = 1e-8;
+      gradient_check_absolute_precision = 1e-6;
       gradient_check_numeric_derivative_relative_step_size = 1e-6;
       update_state_every_iteration = false;
     }
@@ -700,6 +701,12 @@ class CERES_EXPORT Solver {
     // relative difference between an element in a jacobian exceeds
     // this number, then the jacobian for that cost term is dumped.
     double gradient_check_relative_precision;
+
+    // Absolute precision to check for in the gradient checker. If the
+    // absolute difference between an element in a jacobian is lower
+    // than this number, then the jacobian for that cost term is
+    // considered to be good
+    double gradient_check_absolute_precision;
 
     // WARNING: This option only applies to the to the numeric
     // differentiation used for checking the user provided derivatives

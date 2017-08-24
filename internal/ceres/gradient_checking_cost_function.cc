@@ -67,11 +67,13 @@ class GradientCheckingCostFunction : public CostFunction {
       const std::vector<const LocalParameterization*>* local_parameterizations,
       const NumericDiffOptions& options,
       double relative_precision,
+      double absolute_precision,
       const string& extra_info,
       GradientCheckingIterationCallback* callback)
       : function_(function),
         gradient_checker_(function, local_parameterizations, options),
         relative_precision_(relative_precision),
+        absolute_precision_(absolute_precision),
         extra_info_(extra_info),
         callback_(callback) {
     CHECK_NOTNULL(callback_);
@@ -94,6 +96,7 @@ class GradientCheckingCostFunction : public CostFunction {
     GradientChecker::ProbeResults results;
     bool okay = gradient_checker_.Probe(parameters,
                                         relative_precision_,
+                                        absolute_precision_,
                                         &results);
 
     // If the cost function returned false, there's nothing we can say about
@@ -128,6 +131,7 @@ class GradientCheckingCostFunction : public CostFunction {
   const CostFunction* function_;
   GradientChecker gradient_checker_;
   double relative_precision_;
+  double absolute_precision_;
   string extra_info_;
   GradientCheckingIterationCallback* callback_;
 };
@@ -159,6 +163,7 @@ CostFunction* CreateGradientCheckingCostFunction(
     const std::vector<const LocalParameterization*>* local_parameterizations,
     double relative_step_size,
     double relative_precision,
+    double absolute_precision,
     const std::string& extra_info,
     GradientCheckingIterationCallback* callback) {
   NumericDiffOptions numeric_diff_options;
@@ -167,7 +172,7 @@ CostFunction* CreateGradientCheckingCostFunction(
   return new GradientCheckingCostFunction(cost_function,
                                           local_parameterizations,
                                           numeric_diff_options,
-                                          relative_precision, extra_info,
+                                          relative_precision, absolute_precision, extra_info,
                                           callback);
 }
 
@@ -175,6 +180,7 @@ ProblemImpl* CreateGradientCheckingProblemImpl(
     ProblemImpl* problem_impl,
     double relative_step_size,
     double relative_precision,
+    double absolute_precision,
     GradientCheckingIterationCallback* callback) {
   CHECK_NOTNULL(callback);
   // We create new CostFunctions by wrapping the original CostFunction
@@ -245,6 +251,7 @@ ProblemImpl* CreateGradientCheckingProblemImpl(
                                          &local_parameterizations,
                                          numeric_diff_options,
                                          relative_precision,
+                                         absolute_precision,
                                          extra_info,
                                          callback);
 

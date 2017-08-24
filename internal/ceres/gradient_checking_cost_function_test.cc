@@ -158,6 +158,7 @@ TEST(GradientCheckingCostFunction, ResidualsAndJacobiansArePreservedTest) {
 
   const double kRelativeStepSize = 1e-6;
   const double kRelativePrecision = 1e-4;
+  const double kAbsolutePrecision = 1e-8;
 
   TestTerm<-1, -1> term(arity, dim);
   GradientCheckingIterationCallback callback;
@@ -165,6 +166,7 @@ TEST(GradientCheckingCostFunction, ResidualsAndJacobiansArePreservedTest) {
       CreateGradientCheckingCostFunction(&term, NULL,
                                          kRelativeStepSize,
                                          kRelativePrecision,
+                                         kAbsolutePrecision,
                                          "Ignored.", &callback));
   term.Evaluate(&parameters[0],
                 &original_residual,
@@ -212,6 +214,7 @@ TEST(GradientCheckingCostFunction, SmokeTest) {
 
   const double kRelativeStepSize = 1e-6;
   const double kRelativePrecision = 1e-4;
+  const double kAbsolutePrecision = 1e-8;
 
   // Should have one term that's bad, causing everything to get dumped.
   LOG(INFO) << "Bad gradient";
@@ -222,6 +225,7 @@ TEST(GradientCheckingCostFunction, SmokeTest) {
         CreateGradientCheckingCostFunction(&term, NULL,
                                            kRelativeStepSize,
                                            kRelativePrecision,
+                                           kAbsolutePrecision,
                                            "Fuzzy banana", &callback));
     EXPECT_TRUE(
         gradient_checking_cost_function->Evaluate(&parameters[0], &residual,
@@ -241,6 +245,7 @@ TEST(GradientCheckingCostFunction, SmokeTest) {
         CreateGradientCheckingCostFunction(&term, NULL,
                                            kRelativeStepSize,
                                            kRelativePrecision,
+                                           kAbsolutePrecision,
                                            "Fuzzy banana", &callback));
     EXPECT_TRUE(
         gradient_checking_cost_function->Evaluate(&parameters[0], &residual,
@@ -359,7 +364,7 @@ TEST(GradientCheckingProblemImpl, ProblemDimensionsMatch) {
 
   GradientCheckingIterationCallback callback;
   scoped_ptr<ProblemImpl> gradient_checking_problem_impl(
-      CreateGradientCheckingProblemImpl(&problem_impl, 1.0, 1.0, &callback));
+      CreateGradientCheckingProblemImpl(&problem_impl, 1.0, 1.0, 1.0, &callback));
 
   // The dimensions of the two problems match.
   EXPECT_EQ(problem_impl.NumParameterBlocks(),

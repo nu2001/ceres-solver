@@ -219,9 +219,9 @@ TEST(GradientChecker, SmokeTest) {
   // Test that Probe returns true for correct Jacobians.
   GoodTestTerm good_term(num_parameters, parameter_sizes.data());
   GradientChecker good_gradient_checker(&good_term, NULL, numeric_diff_options);
-  EXPECT_TRUE(good_gradient_checker.Probe(parameters.get(), kTolerance, NULL));
+  EXPECT_TRUE(good_gradient_checker.Probe(parameters.get(), kTolerance, kTolerance, NULL));
   EXPECT_TRUE(
-      good_gradient_checker.Probe(parameters.get(), kTolerance, &results))
+      good_gradient_checker.Probe(parameters.get(), kTolerance, kTolerance, &results))
       << results.error_log;
 
   // Check that results contain sensible data.
@@ -233,9 +233,9 @@ TEST(GradientChecker, SmokeTest) {
 
   // Test that if the cost function return false, Probe should return false.
   good_term.SetReturnValue(false);
-  EXPECT_FALSE(good_gradient_checker.Probe(parameters.get(), kTolerance, NULL));
+  EXPECT_FALSE(good_gradient_checker.Probe(parameters.get(), kTolerance, kTolerance, NULL));
   EXPECT_FALSE(
-      good_gradient_checker.Probe(parameters.get(), kTolerance, &results))
+      good_gradient_checker.Probe(parameters.get(), kTolerance, kTolerance, &results))
       << results.error_log;
 
   // Check that results contain sensible data.
@@ -252,9 +252,9 @@ TEST(GradientChecker, SmokeTest) {
   // Test that Probe returns false for incorrect Jacobians.
   BadTestTerm bad_term(num_parameters, parameter_sizes.data());
   GradientChecker bad_gradient_checker(&bad_term, NULL, numeric_diff_options);
-  EXPECT_FALSE(bad_gradient_checker.Probe(parameters.get(), kTolerance, NULL));
+  EXPECT_FALSE(bad_gradient_checker.Probe(parameters.get(), kTolerance, kTolerance, NULL));
   EXPECT_FALSE(
-      bad_gradient_checker.Probe(parameters.get(), kTolerance, &results));
+      bad_gradient_checker.Probe(parameters.get(), kTolerance, kTolerance, &results));
 
   // Check that results contain sensible data.
   ASSERT_EQ(results.return_value, true);
@@ -264,7 +264,7 @@ TEST(GradientChecker, SmokeTest) {
   EXPECT_FALSE(results.error_log.empty());
 
   // Setting a high threshold should make the test pass.
-  EXPECT_TRUE(bad_gradient_checker.Probe(parameters.get(), 1.0, &results));
+  EXPECT_TRUE(bad_gradient_checker.Probe(parameters.get(), 1.0, 1.0, &results));
 
   // Check that results contain sensible data.
   ASSERT_EQ(results.return_value, true);
@@ -467,8 +467,8 @@ TEST(GradientChecker, TestCorrectnessWithLocalParameterizations) {
   Solver::Summary summary;
 
   // First test case: everything is correct.
-  EXPECT_TRUE(gradient_checker.Probe(parameters.data(), kTolerance, NULL));
-  EXPECT_TRUE(gradient_checker.Probe(parameters.data(), kTolerance, &results))
+  EXPECT_TRUE(gradient_checker.Probe(parameters.data(), kTolerance, kTolerance, NULL));
+  EXPECT_TRUE(gradient_checker.Probe(parameters.data(), kTolerance, kTolerance, &results))
       << results.error_log;
 
   // Check that results contain correct data.
@@ -506,8 +506,8 @@ TEST(GradientChecker, TestCorrectnessWithLocalParameterizations) {
   j0_offset.setZero();
   j0_offset.col(2).setConstant(0.001);
   cost_function.SetJacobianOffset(0, j0_offset);
-  EXPECT_FALSE(gradient_checker.Probe(parameters.data(), kTolerance, NULL));
-  EXPECT_FALSE(gradient_checker.Probe(parameters.data(), kTolerance, &results))
+  EXPECT_FALSE(gradient_checker.Probe(parameters.data(), kTolerance, kTolerance, NULL));
+  EXPECT_FALSE(gradient_checker.Probe(parameters.data(), kTolerance, kTolerance, &results))
       << results.error_log;
 
   // Check that results contain correct data.
@@ -546,7 +546,7 @@ TEST(GradientChecker, TestCorrectnessWithLocalParameterizations) {
   parameterization.global_J_local.row(2).setZero();
 
   // Verify that the gradient checker does not treat this as an error.
-  EXPECT_TRUE(gradient_checker.Probe(parameters.data(), kTolerance, &results))
+  EXPECT_TRUE(gradient_checker.Probe(parameters.data(), kTolerance, kTolerance, &results))
       << results.error_log;
 
   // Check that results contain correct data.

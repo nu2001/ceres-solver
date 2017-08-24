@@ -146,6 +146,7 @@ GradientChecker::GradientChecker(
 
 bool GradientChecker::Probe(double const* const * parameters,
                             double relative_precision,
+                            double absolute_precision,
                             ProbeResults* results_param) const {
   int num_residuals = function_->num_residuals();
 
@@ -197,6 +198,7 @@ bool GradientChecker::Probe(double const* const * parameters,
         results->residuals[i],
         finite_diff_residuals[i],
         relative_precision,
+        absolute_precision,
         NULL,
         NULL)) {
       results->error_log = "Function evaluation with and without Jacobians "
@@ -237,6 +239,7 @@ bool GradientChecker::Probe(double const* const * parameters,
             !IsClose(term_jacobian,
                      finite_jacobian,
                      relative_precision,
+                     absolute_precision,
                      &relative_error,
                      &absolute_error);
         worst_relative_error = std::max(worst_relative_error, relative_error);

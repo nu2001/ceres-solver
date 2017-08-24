@@ -35,7 +35,7 @@
 
 namespace ceres {
 namespace internal {
-bool IsClose(double x, double y, double relative_precision,
+bool IsClose(double x, double y, double relative_precision, double absolute_precision,
              double *relative_error,
              double *absolute_error) {
   double local_absolute_error;
@@ -53,7 +53,12 @@ bool IsClose(double x, double y, double relative_precision,
     // meaning. Take the absolute difference instead.
     *relative_error = *absolute_error;
   }
-  return *relative_error < std::fabs(relative_precision);
+
+  bool is_close = false;
+  is_close |= *relative_error < std::fabs(relative_precision);
+  is_close |= *absolute_error < std::fabs(absolute_precision);
+
+  return is_close;
 }
 }  // namespace internal
 }  // namespace ceres

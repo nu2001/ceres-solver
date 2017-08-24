@@ -134,6 +134,7 @@ class GradientChecker {
   // Jacobians is less than error_tolerance.
   bool Probe(double const* const* parameters,
              double relative_precision,
+             double absolute_precision,
              ProbeResults* results) const;
 
  private:

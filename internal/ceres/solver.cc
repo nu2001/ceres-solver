@@ -94,6 +94,7 @@ bool CommonOptionsAreValid(const Solver::Options& options, string* error) {
   OPTION_GT(num_linear_solver_threads, 0);
   if (options.check_gradients) {
     OPTION_GT(gradient_check_relative_precision, 0.0);
+    OPTION_GT(gradient_check_absolute_precision, 0.0);
     OPTION_GT(gradient_check_numeric_derivative_relative_step_size, 0.0);
   }
   return true;
@@ -509,6 +510,7 @@ void Solver::Solve(const Solver::Options& options,
             problem_impl,
             options.gradient_check_numeric_derivative_relative_step_size,
             options.gradient_check_relative_precision,
+            options.gradient_check_absolute_precision,
             &gradient_checking_callback));
     problem_impl = gradient_checking_problem.get();
     program = problem_impl->mutable_program();

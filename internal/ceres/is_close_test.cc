@@ -43,23 +43,23 @@ TEST(IsClose, BothParametersPositive) {
   double absolute_error = -1;
 
   // Test cases where both values are positive.
-  EXPECT_TRUE(IsClose(9.9, 10.0, 0.011, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(9.9, 10.0, 0.011, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.01, kTolerance);
   EXPECT_NEAR(absolute_error, 0.1, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_TRUE(IsClose(10.0, 9.9, 0.011, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(10.0, 9.9, 0.011, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.01, kTolerance);
   EXPECT_NEAR(absolute_error, 0.1, kTolerance);
   relative_error = -1;
   absolute_error = -1;
 
-  EXPECT_FALSE(IsClose(9.9, 10.0, 0.009, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(9.9, 10.0, 0.009, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.01, kTolerance);
   EXPECT_NEAR(absolute_error, 0.1, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_FALSE(IsClose(10.0, 9.9, 0.009, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(10.0, 9.9, 0.009, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.01, kTolerance);
   EXPECT_NEAR(absolute_error, 0.1, kTolerance);
 }
@@ -69,23 +69,23 @@ TEST(IsClose, BothParametersNegative) {
   double absolute_error = -1;
 
   // Test cases where both values are negative.
-  EXPECT_TRUE(IsClose(-9.9, -10.0, 0.011, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(-9.9, -10.0, 0.011, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.01, kTolerance);
   EXPECT_NEAR(absolute_error, 0.1, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_TRUE(IsClose(-10.0, -9.9, 0.011, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(-10.0, -9.9, 0.011, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.01, kTolerance);
   EXPECT_NEAR(absolute_error, 0.1, kTolerance);
   relative_error = -1;
   absolute_error = -1;
 
-  EXPECT_FALSE(IsClose(-9.9, -10.0, 0.009, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(-9.9, -10.0, 0.009, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.01, kTolerance);
   EXPECT_NEAR(absolute_error, 0.1, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_FALSE(IsClose(-10.0, -9.9, 0.009, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(-10.0, -9.9, 0.009, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.01, kTolerance);
   EXPECT_NEAR(absolute_error, 0.1, kTolerance);
 }
@@ -95,22 +95,22 @@ TEST(IsClose, ParametersHaveMixedSigns) {
   double absolute_error = -1;
 
   // Test cases with mixed signs.
-  EXPECT_FALSE(IsClose(-0.1, 0.1, 1.99, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(-0.1, 0.1, 1.99, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 2.0, kTolerance);
   EXPECT_NEAR(absolute_error, 0.2, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_TRUE(IsClose(-0.1, 0.1, 2.01, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(-0.1, 0.1, 2.01, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 2.0, kTolerance);
   EXPECT_NEAR(absolute_error, 0.2, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_FALSE(IsClose(0.1, -0.1, 1.99, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(0.1, -0.1, 1.99, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 2.0, kTolerance);
   EXPECT_NEAR(absolute_error, 0.2, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_TRUE(IsClose(0.1, -0.1, 2.01, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(0.1, -0.1, 2.01, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 2.0, kTolerance);
   EXPECT_NEAR(absolute_error, 0.2, kTolerance);
 }
@@ -120,43 +120,43 @@ TEST(IsClose, OneParameterZero) {
   double absolute_error = -1;
 
   // Test cases where one of the values is zero.
-  EXPECT_TRUE(IsClose(0.0, 10.0, 10.1, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(0.0, 10.0, 10.1, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 10.0, kTolerance);
   EXPECT_NEAR(absolute_error, 10.0, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_TRUE(IsClose(10.0, 0.0, 10.1, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(10.0, 0.0, 10.1, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 10.0, kTolerance);
   EXPECT_NEAR(absolute_error, 10.0, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_TRUE(IsClose(0.0, -10.0, 10.1, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(0.0, -10.0, 10.1, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 10.0, kTolerance);
   EXPECT_NEAR(absolute_error, 10.0, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_TRUE(IsClose(-10.0, 0.0, 10.1, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(-10.0, 0.0, 10.1, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 10.0, kTolerance);
   EXPECT_NEAR(absolute_error, 10.0, kTolerance);
   relative_error = -1;
   absolute_error = -1;
 
-  EXPECT_FALSE(IsClose(0, 10.0, 9.9, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(0, 10.0, 9.9, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 10.0, kTolerance);
   EXPECT_NEAR(absolute_error, 10.0, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_FALSE(IsClose(10.0, 0.0, 9.9, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(10.0, 0.0, 9.9, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 10.0, kTolerance);
   EXPECT_NEAR(absolute_error, 10.0, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_FALSE(IsClose(0, -10.0, 9.9, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(0, -10.0, 9.9, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 10.0, kTolerance);
   EXPECT_NEAR(absolute_error, 10.0, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_FALSE(IsClose(-10.0, 0.0, 9.9, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(-10.0, 0.0, 9.9, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 10.0, kTolerance);
   EXPECT_NEAR(absolute_error, 10.0, kTolerance);
 }
@@ -164,12 +164,12 @@ TEST(IsClose, OneParameterZero) {
 TEST(IsClose, BothParametersZero) {
   double relative_error = -1;
   double absolute_error = -1;
-  EXPECT_TRUE(IsClose(0.0, 0.0, 0.1, &relative_error, &absolute_error));
+  EXPECT_TRUE(IsClose(0.0, 0.0, 0.1, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.0, kTolerance);
   EXPECT_NEAR(absolute_error, 0.0, kTolerance);
   relative_error = -1;
   absolute_error = -1;
-  EXPECT_FALSE(IsClose(0.0, 0.0, 0.0, &relative_error, &absolute_error));
+  EXPECT_FALSE(IsClose(0.0, 0.0, 0.0, 1e-8, &relative_error, &absolute_error));
   EXPECT_NEAR(relative_error, 0.0, kTolerance);
   EXPECT_NEAR(absolute_error, 0.0, kTolerance);
 }
